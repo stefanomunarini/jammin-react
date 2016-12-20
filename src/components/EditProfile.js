@@ -35,6 +35,7 @@ class EditProfile extends Component {
                 youtube: [],
             },
             instruments: [],
+            music_listen: [],
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -49,6 +50,13 @@ class EditProfile extends Component {
         this.removeInstrument = this.removeInstrument.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.removeImage = this.removeImage.bind(this);
+
+
+        var foo = [1, 'string', '2'];
+        function d(a) {
+            return {r: a[1] + a[a.length - 1]};
+        }
+        console.log(d(foo));
 
     }
 
@@ -81,20 +89,14 @@ class EditProfile extends Component {
         }
     }
 
-    getOptions(input, callback){
-        var options = [];
-        if(input.length){
-            $.getJSON( "https://api.spotify.com/v1/search?q=" + input + "*&type=artist", function( data ) {
-                var artistsArray = data.artists.items;
-                $.each(artistsArray, function(key, value){
-                    options.push({value: value.name, label: value.name});
-                });
-            });
+    getOptions(){
+        var genres = this.props.route.genres;
+        var filter_options = [];
+        for (var genre in genres) {
+            console.log(genres[genre]);
+            filter_options.push({'value': genres[genre], 'label': genres[genre]});
         }
-
-        setTimeout(function() {
-            callback(null, {options: options});
-        }, 500);
+        return filter_options;
     }
 
     musicPlayChange(val){
@@ -135,6 +137,10 @@ class EditProfile extends Component {
 
     handleInstrumentChange(val){
         this.setState({instruments: {...this.state.instruments, name: val.value }});
+    }
+
+    handleMusicListenChange(val){
+        this.setState({music_listen: {...this.state.music_listen, name: val.value }});
     }
 
     saveInstrument(){
@@ -360,10 +366,11 @@ class EditProfile extends Component {
                                 <Col xs={6}>
                                     <label htmlFor="music_listen">
                                         Music influencers
-                                        <Select.Async
+                                        <Select
                                             name="music_listen"
-                                            loadOptions={this.getOptions}
-                                            onChange={this.musicListenChange}
+                                            value={this.state.music_listen.name}
+                                            options={this.props.route.genres}
+                                            onChange={this.handleMusicListenChange}
                                         />
                                     </label>
                                     <div className="container-tags">
