@@ -64,8 +64,6 @@ class Register extends Component {
             // This gives you a Google Access Token. You can use it to access the Google API.
             let token = result.credential.accessToken;
 
-            console.log(result);
-
             let id = result.user.uid;
             let firstName = result.user.displayName.split(' ')[0];
             let lastName = result.user.displayName.split(' ')[1];
