@@ -55,7 +55,6 @@ class Profile extends Component {
         } else if(firebase.auth().currentUser && firebase.auth().currentUser.uid === this.state.user.id ){
             editButton = <button className="editprofile" onClick={this.handleEditButton}>Edit profile</button>;
         }
-        console.log('fucking edit: ', editButton);
 
         return(
             <Row>
